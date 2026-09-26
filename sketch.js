@@ -4,8 +4,8 @@ function running() {
     return !r.WindowShouldClose();
 }
 
-const WIDTH = 1000;
-const HEIGHT = 700;
+const WIDTH = 900;
+const HEIGHT = 600;
 const FPS = 100;
 
 function setup() {
@@ -34,8 +34,16 @@ function update() {
     scannerX += scannerMovement;
 }
 
+
 function drawParticleField() {
-    r.DrawRectangle(100, 0, 150, HEIGHT, r.BLUE);
+
+    const particleX = 300;
+    const particleY = 0;
+
+    const particleWidth = 150;
+    const particleHeight = HEIGHT;
+
+    r.DrawRectangle(particleX, particleY, particleWidth, particleHeight, r.SKYBLUE);
 }
 
 function drawScanner() {
