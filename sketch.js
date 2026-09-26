@@ -100,7 +100,7 @@ function particleDetector() {
     scanner1Color = scannerColor(particleDetected1);
 
     const particleDetected2 = isParticleDetected(scanner2X, scanner2Width, particle2X, particle2Width);
-    scanner2Color = scannerColor(particleDetected2)
+    scanner2Color = scannerColor(particleDetected2);
 }
 
 function draw() {
