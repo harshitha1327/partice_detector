@@ -79,7 +79,7 @@ function drawParticleFields() {
     r.DrawRectangle(particle2X, particle2Y, particle2Width, particle2Height, r.SKYBLUE);
 }
 
-function drawScanner() {
+function drawScanners() {
     r.DrawRectangle(scanner1X, scanner1Y, scanner1Width, scannerHeight, scanner1Color);
     r.DrawRectangle(scanner2X, scanner2Y, scanner2Width, scanner2Height, scanner2Color);
 }
@@ -108,7 +108,7 @@ function draw() {
     r.ClearBackground(r.BLACK);
 
     drawParticleFields();
-    drawScanner();
+    drawScanners();
     particleDetector();
 
     r.EndDrawing();
