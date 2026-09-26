@@ -43,8 +43,15 @@ const particleY = 0;
 const particleWidth = 150;
 const particleHeight = HEIGHT;
 
-function drawParticleField() {
+const particle2X = 600;
+const particle2Y = 0;
+
+const particle2Width = 15;
+const particle2Height = HEIGHT;
+
+function drawParticleFields() {
     r.DrawRectangle(particleX, particleY, particleWidth, particleHeight, r.SKYBLUE);
+    r.DrawRectangle(particle2X, particle2Y, particle2Width, particle2Height, r.SKYBLUE);
 }
 
 function drawScanner() {
@@ -63,7 +70,8 @@ function changeScannerColor(particleDetected) {
 }
 
 function particleDetector() {
-    const particleDetected = isParticleDetected(scannerX, scannerWidth, particleX, particleWidth);
+    const particleDetected = (isParticleDetected(scannerX, scannerWidth, particleX, particleWidth)
+        || isParticleDetected(scannerX, scannerWidth, particle2X, particle2Width));
     changeScannerColor(particleDetected);
 }
 
@@ -71,7 +79,7 @@ function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    drawParticleField();
+    drawParticleFields();
     drawScanner();
     particleDetector();
 
