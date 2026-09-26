@@ -9,41 +9,45 @@ const HEIGHT = 700;
 const FPS = 100;
 
 function setup() {
-    r.InitWindow(WIDTH, HEIGHT, "Particle detector");
+    r.InitWindow(WIDTH, HEIGHT, "Particle scanner");
     r.SetTargetFPS(FPS);
 }
 
-let detectorIncrement = 1;
-let detectorEnd = 0;
+let scannerMovement = 1;
+let scannerEnd = 0;
 
-let detectorX = 0;
-const detectorY = 0;
-const detectorWidth = 50;
-const detectorHeight = HEIGHT;
+let scannerX = 0;
+const scannerY = 0;
+const scannerWidth = 50;
+const scannerHeight = HEIGHT;
 
 function update() {
-    if (detectorX === (WIDTH - detectorWidth) && detectorEnd === 1) {
-        detectorEnd = 0;
-        detectorIncrement = -1;
+    if (scannerX === (WIDTH - scannerWidth) && scannerEnd === 1) {
+        scannerEnd = 0;
+        scannerMovement = -1;
     }
-    if (detectorX === 0 && detectorEnd === 0) {
-        detectorEnd = 1;
-        detectorIncrement = 1;
+    if (scannerX === 0 && scannerEnd === 0) {
+        scannerEnd = 1;
+        scannerMovement = 1;
     }
 
-    detectorX += detectorIncrement;
+    scannerX += scannerMovement;
 }
 
+function drawParticleField() {
+    r.DrawRectangle(100, 0, 150, HEIGHT, r.BLUE);
+}
 
-function drawDetector() {
-    r.DrawRectangle(detectorX, detectorY, detectorWidth, detectorHeight, r.WHITE);
+function drawScanner() {
+    r.DrawRectangle(scannerX, scannerY, scannerWidth, scannerHeight, r.WHITE);
 }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    drawDetector();
+    drawParticleField();
+    drawScanner();
 
     r.EndDrawing();
 }
