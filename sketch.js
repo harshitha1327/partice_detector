@@ -74,7 +74,6 @@ function update() {
         scanner3Movement = 1;
     }
     scanner3Y += scanner3Movement;
-
 }
 
 const particleColor = r.BLUE;
