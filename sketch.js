@@ -21,7 +21,7 @@ const scanner1Width = 50;
 const scannerHeight = HEIGHT;
 
 
-let scanner1Movement = 1;
+let scanner1Movement = -1;
 const scanner1Start = 0;
 const scanner1End = WIDTH / 2 - scanner1Width;
 let scanner1Color = r.WHITE;
@@ -33,7 +33,7 @@ const scanner2Y = 0;
 const scanner2Width = 50;
 const scanner2Height = HEIGHT;
 
-let scanner2Movement = 2;
+let scanner2Movement = -2;
 const scanner2Start = scanner2X;
 const scanner2End = WIDTH - scanner2Width;
 let scanner2Color = r.WHITE;
@@ -45,33 +45,24 @@ let scanner3Y = 0;
 const scanner3Width = WIDTH;
 const scanner3Height = 50;
 
-let scanner3Movement = 1;
+let scanner3Movement = -1;
 const scanner3Start = 0;
 const scanner3End = HEIGHT - scanner3Height;
 let scanner3Color = r.WHITE;
 
 function update() {
-    if (scanner1X === scanner1End) {
-        scanner1Movement = -1;
-    }
-    if (scanner1X === scanner1Start) {
-        scanner1Movement = 1;
+    if (scanner1X === scanner1End || scanner1X === scanner1Start) {
+        scanner1Movement = -scanner1Movement;
     }
     scanner1X += scanner1Movement;
 
-    if (scanner2X === scanner2End) {
-        scanner2Movement = -2;
-    }
-    if (scanner2X === scanner2Start) {
-        scanner2Movement = 2;
+    if (scanner2X === scanner2End || scanner2X === scanner2Start) {
+        scanner2Movement = -scanner2Movement;
     }
     scanner2X += scanner2Movement;
 
-    if (scanner3Y === scanner3End) {
-        scanner3Movement = -1;
-    }
-    if (scanner3Y === scanner3Start) {
-        scanner3Movement = 1;
+    if (scanner3Y === scanner3End || scanner3Y === scanner3Start) {
+        scanner3Movement = -scanner3Movement;
     }
     scanner3Y += scanner3Movement;
 }
