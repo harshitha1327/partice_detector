@@ -82,6 +82,7 @@ function drawParticleFields() {
 function drawScanners() {
     r.DrawRectangle(scanner1X, scanner1Y, scanner1Width, scannerHeight, scanner1Color);
     r.DrawRectangle(scanner2X, scanner2Y, scanner2Width, scanner2Height, scanner2Color);
+    r.DrawRectangle(0, 0, WIDTH, 50, r.WHITE);
 }
 
 function isParticleDetected(scannerX, scannerWidth, particleX, particleWidth) {
