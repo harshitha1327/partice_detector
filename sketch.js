@@ -13,35 +13,60 @@ function setup() {
     r.SetTargetFPS(FPS);
 }
 
-let scannerMovement = 1;
-let scannerEnd = 0;
 
-let scannerX = 0;
-const scannerY = 0;
+let scanner1X = 0;
+const scanner1Y = 0;
 
-const scannerWidth = 50;
+const scanner1Width = 50;
 const scannerHeight = HEIGHT;
 
-let scannerColor = r.WHITE;
+let scanner1Movement = 1;
+let isScanner1End = 0;
+
+const scanner1Start = 0;
+const scanner1End = WIDTH / 2 - scanner1Width;
+let scanner1Color = r.WHITE;
+
+let scanner2X = WIDTH / 2;
+const scanner2Y = 0;
+
+const scanner2Width = 50;
+const scanner2Height = HEIGHT;
+
+let scanner2Movement = 2;
+let isScanner2End = 0;
+
+const scanner2Start = scanner2X;
+const scanner2End = WIDTH - scanner2Width;
+let scanner2Color = r.WHITE;
 
 function update() {
-    if (scannerX === (WIDTH - scannerWidth) && scannerEnd === 1) {
-        scannerEnd = 0;
-        scannerMovement = -1;
+    if (scanner1X === scanner1End && isScanner1End === 1) {
+        isScanner1End = 0;
+        scanner1Movement = -1;
     }
-    if (scannerX === 0 && scannerEnd === 0) {
-        scannerEnd = 1;
-        scannerMovement = 1;
+    if (scanner1X === scanner1Start && isScanner1End === 0) {
+        isScanner1End = 1;
+        scanner1Movement = 1;
     }
+    scanner1X += scanner1Movement;
 
-    scannerX += scannerMovement;
+    if (scanner2X === scanner2End && isScanner2End === 1) {
+        isScanner2End = 0;
+        scanner2Movement = -2;
+    }
+    if (scanner2X === scanner2Start && isScanner2End === 0) {
+        isScanner2End = 1;
+        scanner2Movement = 2;
+    }
+    scanner2X += scanner2Movement;
 }
 
-const particleX = 300;
-const particleY = 0;
+const particle1X = 300;
+const particle1Y = 0;
 
-const particleWidth = 150;
-const particleHeight = HEIGHT;
+const particle1Width = 150;
+const particle1Height = HEIGHT;
 
 const particle2X = 600;
 const particle2Y = 0;
@@ -50,12 +75,13 @@ const particle2Width = 15;
 const particle2Height = HEIGHT;
 
 function drawParticleFields() {
-    r.DrawRectangle(particleX, particleY, particleWidth, particleHeight, r.SKYBLUE);
+    r.DrawRectangle(particle1X, particle1Y, particle1Width, particle1Height, r.SKYBLUE);
     r.DrawRectangle(particle2X, particle2Y, particle2Width, particle2Height, r.SKYBLUE);
 }
 
 function drawScanner() {
-    r.DrawRectangle(scannerX, scannerY, scannerWidth, scannerHeight, scannerColor);
+    r.DrawRectangle(scanner1X, scanner1Y, scanner1Width, scannerHeight, scanner1Color);
+    r.DrawRectangle(scanner2X, scanner2Y, scanner2Width, scanner2Height, scanner2Color);
 }
 
 function isParticleDetected(scannerX, scannerWidth, particleX, particleWidth) {
@@ -65,14 +91,16 @@ function isParticleDetected(scannerX, scannerWidth, particleX, particleWidth) {
     return !(scannerRange < particleX || particleRange < scannerX)
 }
 
-function changeScannerColor(particleDetected) {
-    scannerColor = particleDetected ? r.RED : r.WHITE;
+function scannerColor(particleDetected) {
+    return particleDetected ? r.RED : r.WHITE;
 }
 
 function particleDetector() {
-    const particleDetected = (isParticleDetected(scannerX, scannerWidth, particleX, particleWidth)
-        || isParticleDetected(scannerX, scannerWidth, particle2X, particle2Width));
-    changeScannerColor(particleDetected);
+    const particleDetected1 = isParticleDetected(scanner1X, scanner1Width, particle1X, particle1Width)
+    scanner1Color = scannerColor(particleDetected1);
+
+    const particleDetected2 = isParticleDetected(scanner2X, scanner2Width, particle2X, particle2Width);
+    scanner2Color = scannerColor(particleDetected2)
 }
 
 function draw() {
