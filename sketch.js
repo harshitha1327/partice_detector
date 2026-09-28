@@ -25,18 +25,6 @@ const particle2Width = 30;
 const particle3Start = 230;
 const particle3Height = 20;
 
-// function isDetectorOutOfBound(start, end, upper, lower) {
-//     return (start < lower) || (end > upper);
-// }
-
-// function d.getDetectorVelocity(start, end, velocity, upper, lower) {
-//     return isDetectorOutOfBound(start, end, upper, lower) ? -velocity : velocity;
-// }
-
-// function getDetectorStart(start, velocity) {
-//     return start + velocity;
-// }
-
 function update() {
     const particle1End = particle1Start + particle1Width;
     const particle2End = particle2Start + particle2Width;
