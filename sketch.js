@@ -4,6 +4,7 @@ const s = require("./screen.js");
 const d1 = require("./d1.js");
 const d2 = require("./d2.js");
 const d3 = require("./d3.js");
+const d = require("./d.js");
 
 function running() {
     return !r.WindowShouldClose();
@@ -24,17 +25,17 @@ const particle2Width = 30;
 const particle3Start = 230;
 const particle3Height = 20;
 
-function isDetectorOutOfBound(start, end, upper, lower) {
-    return (start < lower) || (end > upper);
-}
+// function isDetectorOutOfBound(start, end, upper, lower) {
+//     return (start < lower) || (end > upper);
+// }
 
-function getDetectorVelocity(start, end, velocity, upper, lower) {
-    return isDetectorOutOfBound(start, end, upper, lower) ? -velocity : velocity;
-}
+// function d.getDetectorVelocity(start, end, velocity, upper, lower) {
+//     return isDetectorOutOfBound(start, end, upper, lower) ? -velocity : velocity;
+// }
 
-function getDetectorStart(start, velocity) {
-    return start + velocity;
-}
+// function getDetectorStart(start, velocity) {
+//     return start + velocity;
+// }
 
 function update() {
     const particle1End = particle1Start + particle1Width;
@@ -45,18 +46,18 @@ function update() {
     const detector2End = d2.start + d2.width;
     const detector3End = d3.start + d3.height; // Vertical Detector.
 
-    d1.velocity = getDetectorVelocity(d1.start, detector1End, d1.velocity, d1.upper, d1.lower);
-    d1.start = getDetectorStart(d1.start, d1.velocity);
+    d1.velocity = d.getDetectorVelocity(d1.start, detector1End, d1.velocity, d1.upper, d1.lower);
+    d1.start = d.getDetectorStart(d1.start, d1.velocity);
 
     d1.hasDetected = overlapParticleFields(particle1Start, particle1End, particle2Start, particle2End, d1.start, detector1End);
 
-    d2.velocity = getDetectorVelocity(d2.start, detector2End, d2.velocity, d2.upper, d2.lower);
-    d2.start = getDetectorStart(d2.start, d2.velocity);
+    d2.velocity = d.getDetectorVelocity(d2.start, detector2End, d2.velocity, d2.upper, d2.lower);
+    d2.start = d.getDetectorStart(d2.start, d2.velocity);
 
     d2.hasDetected = overlapParticleFields(particle1Start, particle1End, particle2Start, particle2End, d2.start, detector2End);
 
-    d3.velocity = getDetectorVelocity(d3.start, detector3End, d3.velocity, d3.upper, d3.lower);
-    d3.start = getDetectorStart(d3.start, d3.velocity);
+    d3.velocity = d.getDetectorVelocity(d3.start, detector3End, d3.velocity, d3.upper, d3.lower);
+    d3.start = d.getDetectorStart(d3.start, d3.velocity);
 
     d3.hasDetected = isDetectorOverlapped(particle3Start, particle3End, d3.start, detector3End);
 }
@@ -118,5 +119,4 @@ module.exports = {
     draw,
     teardown,
 };
-
 
