@@ -1,41 +1,19 @@
 const r = require("raylib");
 
+const s = require("./screen.js");
+const d1 = require("./d1.js");
+const d2 = require("./d2.js");
+const d3 = require("./d3.js");
+
 function running() {
     return !r.WindowShouldClose();
 }
 
-const WIDTH = 600;
-const HEIGHT = 400;
-const FPS = 100;
-
 function setup() {
     r.SetTraceLogLevel(r.LOG_NONE);
-    r.InitWindow(WIDTH, HEIGHT, "Particle detector");
-    r.SetTargetFPS(FPS);
+    r.InitWindow(s.WIDTH, s.HEIGHT, "Particle detector");
+    r.SetTargetFPS(s.FPS);
 }
-
-
-let detector1Start = 0;
-const detector1Width = 50;
-let detector1Velocity = -1;
-const detector1Lower = 0;
-const detector1Upper = WIDTH / 2;
-let hasDetected1 = false;
-
-let detector2Start = WIDTH / 2;
-const detector2Width = 50;
-let detector2Velocity = -2;
-const detector2Lower = detector2Start;
-const detector2Upper = WIDTH;
-let hasDetected2 = false;
-
-
-let detector3Start = 0;
-const detector3Height = 50;
-let detector3Velocity = -1;
-const detector3Lower = 0;
-const detector3Upper = HEIGHT;
-let hasDetected3;
 
 const particle1Start = 200;
 const particle1Width = 100;
@@ -63,24 +41,24 @@ function update() {
     const particle2End = particle2Start + particle2Width;
     const particle3End = particle3Start + particle3Height; // Vertical Particle.
 
-    const detector1End = detector1Start + detector1Width;
-    const detector2End = detector2Start + detector2Width;
-    const detector3End = detector3Start + detector3Height; // Vertical Detector.
+    const detector1End = d1.start + d1.width;
+    const detector2End = d2.start + d2.width;
+    const detector3End = d3.start + d3.height; // Vertical Detector.
 
-    detector1Velocity = getDetectorVelocity(detector1Start, detector1End, detector1Velocity, detector1Upper, detector1Lower);
-    detector1Start = getDetectorStart(detector1Start, detector1Velocity);
+    d1.velocity = getDetectorVelocity(d1.start, detector1End, d1.velocity, d1.upper, d1.lower);
+    d1.start = getDetectorStart(d1.start, d1.velocity);
 
-    hasDetected1 = overlapParticleFields(particle1Start, particle1End, particle2Start, particle2End, detector1Start, detector1End);
+    d1.hasDetected = overlapParticleFields(particle1Start, particle1End, particle2Start, particle2End, d1.start, detector1End);
 
-    detector2Velocity = getDetectorVelocity(detector2Start, detector2End, detector2Velocity, detector2Upper, detector2Lower);
-    detector2Start = getDetectorStart(detector2Start, detector2Velocity);
+    d2.velocity = getDetectorVelocity(d2.start, detector2End, d2.velocity, d2.upper, d2.lower);
+    d2.start = getDetectorStart(d2.start, d2.velocity);
 
-    hasDetected2 = overlapParticleFields(particle1Start, particle1End, particle2Start, particle2End, detector2Start, detector2Width);
+    d2.hasDetected = overlapParticleFields(particle1Start, particle1End, particle2Start, particle2End, d2.start, detector2End);
 
-    detector3Velocity = getDetectorVelocity(detector3Start, detector3End, detector3Velocity, detector3Upper, detector3Lower);
-    detector3Start = getDetectorStart(detector3Start, detector3Velocity);
+    d3.velocity = getDetectorVelocity(d3.start, detector3End, d3.velocity, d3.upper, d3.lower);
+    d3.start = getDetectorStart(d3.start, d3.velocity);
 
-    hasDetected3 = isDetectorOverlapped(particle3Start, particle3End, detector3Start, detector3End);
+    d3.hasDetected = isDetectorOverlapped(particle3Start, particle3End, d3.start, detector3End);
 }
 
 function drawHorizonalParticleField(particleStart, particleWidth) {
@@ -122,9 +100,9 @@ function draw() {
     drawHorizonalParticleField(particle2Start, particle2Width);
     drawVerticalParticleField(particle3Start, particle3Height);
 
-    drawHorizontalDetector(detector1Start, detector1Width, getDetectorColor(hasDetected1));
-    drawHorizontalDetector(detector2Start, detector2Width, getDetectorColor(hasDetected2));
-    drawVerticalDetector(detector3Start, detector3Height, getDetectorColor(hasDetected3));
+    drawHorizontalDetector(d1.start, d1.width, getDetectorColor(d1.hasDetected));
+    drawHorizontalDetector(d2.start, d2.width, getDetectorColor(d2.hasDetected));
+    drawVerticalDetector(d3.start, d3.height, getDetectorColor(d3.hasDetected));
 
     r.EndDrawing();
 }
@@ -142,28 +120,3 @@ module.exports = {
 };
 
 
-// const detectorHeight = HEIGHT;
-// const detector1Y = 0;
-
-// const detector2Y = 0;
-// const detector2Height = HEIGHT;
-
-// let detector3X = 0;
-// const detector3Width = WIDTH;
-
-// const particle1Y = 0;
-// const particle1Height = HEIGHT;
-
-// const particle2Y = 0;
-// const particle2Height = HEIGHT;
-
-// const particle3X = 0;
-// const particle3Width = WIDTH;
-
-// function drawParticleField(particleX, particleY, particleWidth, particleHeight) {
-//     r.DrawRectangle(particleX, particleY, particleWidth, particleHeight, particleColor);
-// }
-
-// drawParticleField(particle1Start, particle1Y, particle1Width, particle1Height);
-// drawParticleField(particle2Start, particle2Y, particle2Width, particle2Height);
-// drawParticleField(particle3X, particle3Start, particle3Width, particle3Height);
