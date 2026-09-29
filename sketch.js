@@ -72,7 +72,7 @@ function overlapParticleFields(particle1Start, particle1End, particle2Start, par
 }
 
 function isDetectorOverlapped(start1, end1, start2, end2) {
-    return !(end1 < start2 || end2 < start1);
+    return (end1 > start2 && end2 > start1);
 }
 
 function getDetectorColor(hasDetected) {
