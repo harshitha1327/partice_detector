@@ -2,12 +2,12 @@ function isDetectorOutOfBound(start, end, upper, lower) {
     return (start < lower) || (end > upper);
 }
 
-function getDetectorVelocity(start, end, velocity, upper, lower) {
-    return isDetectorOutOfBound(start, end, upper, lower) ? -velocity : velocity;
+function getDetectorVelocity(d) {
+    return isDetectorOutOfBound(d.start, d.end, d.upper, d.lower) ? -(d.velocity) : d.velocity;
 }
 
-function getDetectorStart(start, velocity) {
-    return start + velocity;
+function getDetectorStart(d) {
+    return d.start + d.velocity;
 }
 
 module.exports = {
