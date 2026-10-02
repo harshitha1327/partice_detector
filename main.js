@@ -8,7 +8,8 @@ function loop() {
 }
 
 function main() {
-    sketch.setup();
+    const width = 600, height = 400, title = "Particle Detector", fps = 100;
+    sketch.setup(width, height, title, fps);
     loop();
     sketch.teardown();
 }

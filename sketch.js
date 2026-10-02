@@ -1,145 +1,64 @@
 const r = require("raylib");
+const d = require("./detector.js");
+const p = require("./particle.js");
 
-const w = {
-    WIDTH: 600,
-    HEIGHT: 400,
-    FPS: 100,
-};
+let d1 = {};
+let d2 = {};
 
-const d1 = {};
-const d2 = {};
-const d3 = {};
-const d = require("./d.js");
+let particle1 = {};
+let particle2 = {};
 
-const particle1 = {
-    start: 200,
-    width: 100,
-};
-
-const particle2 = {
-    start: 400,
-    width: 30,
-};
-
-const particle3 = {
+let d3 = {};
+let particle3 = {
     start: 230,
     height: 20,
 };
-
-const transparentRed = {
-    r: 255,
-    g: 0,
-    b: 0,
-    a: 100,
-};
-
-const transparentWhite = {
-    r: 255,
-    g: 255,
-    b: 255,
-    a: 180,
-}
 
 function running() {
     return !r.WindowShouldClose();
 }
 
-function init() {
-    d1.start = 0;
-    d1.end = 0;
-    d1.width = 50;
-    d1.velocity = -1;
-    d1.hasDetected = false;
-    d1.upper = w.WIDTH / 2;
-    d1.lower = 0;
+function setup(width, height, title, fps) {
+    r.SetTraceLogLevel(r.LOG_NONE);
+    r.InitWindow(width, height, title);
+    r.SetTargetFPS(fps);
 
-    d2.start = w.WIDTH / 2;
-    d2.end = 0;
-    d2.width = 50;
-    d2.velocity = -2
-    d2.hasDetected = false;
-    d2.upper = w.WIDTH;
-    d2.lower = w.WIDTH / 2;
+    d1 = d.createDetector(0, 50, width / 2, 0, -1);
+    d2 = d.createDetector(width / 2, 50, width, width / 2, -2);
 
-    d3.start = 0;
-    d3.end = 0;
-    d3.height = 50;
-    d3.velocity = -1;
-    d3.hasDetected = false;
-    d3.upper = w.HEIGHT;
-    d3.lower = 0;
+    particle1 = p.createParticle(200, 100);
+    particle2 = p.createParticle(400, 30);
 
     particle1.end = particle1.start + particle1.width;
     particle2.end = particle2.start + particle2.width;
-    particle3.end = particle3.start + particle3.height; // Vertical Particle.
-}
 
-function setup() {
-    r.SetTraceLogLevel(r.LOG_NONE);
-    r.InitWindow(w.WIDTH, w.HEIGHT, "Particle detector");
-    r.SetTargetFPS(w.FPS);
-
-    init();
+    // d3 =createDetector();
+    // particle3.end = particle3.start + particle3.height;
 }
 
 
 function update() {
-    d1.end = d1.start + d1.width;
-    d2.end = d2.start + d2.width;
-    d3.end = d3.start + d3.height; // Vertical Detector.
+    d1 = d.update(d1, particle1, particle2);
+    d2 = d.update(d2, particle1, particle2);
 
-    d1.velocity = d.getDetectorVelocity(d1);
-    d1.start = d.getDetectorStart(d1);
-    d1.hasDetected = overlapParticleFields(particle1, particle2, d1);
-
-    d2.velocity = d.getDetectorVelocity(d2);
-    d2.start = d.getDetectorStart(d2);
-    d2.hasDetected = overlapParticleFields(particle1, particle2, d2);
-
-    d3.velocity = d.getDetectorVelocity(d3);
-    d3.start = d.getDetectorStart(d3);
-    d3.hasDetected = isDetectorOverlapped(d3, particle3);
-}
-
-function drawHorizonalParticleField(particle) {
-    r.DrawRectangle(particle.start, 0, particle.width, w.HEIGHT, r.SKYBLUE);
-}
-
-function drawVerticalParticleField(particle) {
-    r.DrawRectangle(0, particle.start, w.WIDTH, particle.height, r.SKYBLUE);
-}
-
-function drawHorizontalDetector(detector, color) {
-    r.DrawRectangle(detector.start, 0, detector.width, w.HEIGHT, color);
-}
-
-function drawVerticalDetector(detector, color) {
-    r.DrawRectangle(0, detector.start, w.WIDTH, detector.height, color);
-}
-
-function overlapParticleFields(particle1, particle2, detector) {
-    return (isDetectorOverlapped(particle1, detector) || isDetectorOverlapped(particle2, detector));
-}
-
-function isDetectorOverlapped(particle, detector) {
-    return particle.end > detector.start && detector.end > particle.start;
-}
-
-function getDetectorColor(hasDetected) {
-    return hasDetected ? transparentRed : transparentWhite;
+    // d3.end = d3.start + d3.height;
+    // d3.velocity = d.getDetectorVelocity(d3);
+    // d3.start = d.getDetectorStart(d3);
+    // d3.hasDetected = isDetectorOverlapped(d3, particle3);
 }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    drawHorizonalParticleField(particle1);
-    drawHorizonalParticleField(particle2);
-    drawVerticalParticleField(particle3);
+    p.draw(particle1);
+    p.draw(particle2);
 
-    drawHorizontalDetector(d1, getDetectorColor(d1.hasDetected));
-    drawHorizontalDetector(d2, getDetectorColor(d2.hasDetected));
-    drawVerticalDetector(d3, getDetectorColor(d3.hasDetected));
+    d.draw(d1);
+    d.draw(d2);
+
+    // drawVerticalRange(particle3);
+    // drawVerticalDetector(d3, getDetectorColor(d3.hasDetected));
 
     r.EndDrawing();
 }
