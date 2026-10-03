@@ -1,8 +1,8 @@
 const range = require("./range");
 const r = require("raylib");
 
-function createParticle(start, width) {
-    return { start, width };
+function createParticle(start, dimension, isHorizontal) {
+    return isHorizontal ? { start, width: dimension, end: dimension + start, isHorizontal } : { start, height: dimension, end: dimension + start, isHorizontal };
 }
 
 function draw(particle) {

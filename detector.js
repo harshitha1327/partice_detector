@@ -1,7 +1,6 @@
 const range = require("./range");
 
 function isDetectorOutOfBound(d) {
-    d.end = d.start + d.width;
     return (d.start <= d.lower) || (d.end >= d.upper);
 }
 
@@ -15,8 +14,8 @@ function getDetectorStart(d) {
     return d;
 }
 
-function createDetector(start, width, upper, lower, velocity) {
-    return { start, width, upper, lower, velocity };
+function createDetector(start, dimension, upper, lower, velocity, isHorizontal) {
+    return isHorizontal ? { start, width: dimension, upper, lower, velocity, isHorizontal } : { start, height: dimension, upper, lower, velocity, isHorizontal };
 }
 
 function areParticlesOverlapped(d, p1, p2) {
@@ -24,6 +23,7 @@ function areParticlesOverlapped(d, p1, p2) {
 }
 
 function update(d, p1, p2) {
+    d.end = d.start + (d.isHorizontal ? d.width : d.height);
     d = getDetectorVelocity(d);
     d = getDetectorStart(d);
     d.hasDetected = areParticlesOverlapped(d, p1, p2)
